@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="js/jam.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/jam.css" rel="stylesheet">
+
+    <style>
+        body {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="d-flex flex-nowrap">
+        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white sidebar">
+            <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+                <span class="fs-5 fw-semibold">Song List</span>
+            </div>
+            <div class="list-group list-group-flush border-bottom scrollarea">
+                <a id="sidebar-item-template" href="#" class="hidden list-group-item list-group-item-action active py-3 lh-sm">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1 list-item-title">List group item heading</strong>
+                    </div>
+                    <div class="col-10 mb-1 small list-item-description">Some placeholder content in a paragraph below the heading and date.</div>
+                </a>
+            </div>
+        </div>
+        <div id="song">
+            <h1 id="title"></h1> 
+            <p>Transpose: <input id="transpose" type="number" value="0"/></p>
+            <p id="metadata"></p>
+            <p id="content"></p>
+        </div>
+    </main>
+</body>
+
+</html>
