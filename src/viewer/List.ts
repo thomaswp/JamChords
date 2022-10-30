@@ -17,16 +17,101 @@ function activateChords() {
     let html = content.innerHTML;
     html = html.replace(/\[([A-Ga-gmb#74]+)\]/g, "<span class='chord'>[<span class='chord-name' data-chord='$1'>$1</span>]</span>");
     content.innerHTML = html;
-
+    setKeyData();
     setKey();
+}
+
+const chordData = {
+    majors: [1, 0, 0, 1, 1, 0, 1],
+    weights: [1, 0.5, 0.25, 1, 1, 1, 0],
+    steps: [0, 2, 4, 5, 7, 9, 11],
+};
+
+function keyScore(keySteps: number, chordList: string[]) {
+    let score = 0;
+    let first = null;
+    chordList.forEach(chord => {
+        let step = parseInt(chord.replace('m', ''));
+        step -= keySteps + 1; // 0-indexed
+        while (step < 0) step += 12;
+        step %= 12;
+        if (first != null) first = step;
+        let index = chordData.steps.indexOf(step);
+        // console.log(step, index, chordData.majors[index], chordData.weights[index], score);
+        if (index < 0) {
+            score -= 1;
+            return;
+        }
+        let major = chordData.majors[index];
+        if (major != (chord.includes('m') ? 0 : 1)) {
+            score -= 0.5;
+            return;
+        }
+        score += chordData.weights[index];
+    });
+    // The first chord is a good indicator of the chord,
+    // in case of near-ties
+    if (first == 0) score *= 1.2;
+    return score;
+}
+
+function guessKey() {
+    let chordList = [] as string[];
+    document.querySelectorAll('.chord-name').forEach((node: HTMLElement) => {
+        let chord = node.dataset.chord;
+        let step = chordToSteps(chord);
+        // let root = getRoot(chord);
+        // let suffix = chord.substring(root.length);
+        let suffix = chord.includes('m') ? 'm' : '';
+        chordList.push(step + suffix);
+    });
+    console.log(chordList);
+    // keyScore(9, chordList);
+    // console.log('---');
+    // keyScore(2, chordList);
+    let scores = [...Array(12).keys()].map(step => {
+        let score = keyScore(step, chordList);
+        console.log(getKeyNameForStep(step + 1), score);
+        return score;
+    });
+    return argMax(scores) + 1; // 1-indexed
+}
+
+function argMax(array) {
+    return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+}
+
+function setKeyData() {
+    let key = guessKey();
+    console.log(key);
+    document.getElementById('key-guess').innerHTML = getKeyNameForStep(key);
+    document.querySelectorAll('.chord-name').forEach((node: HTMLElement) => {
+        let chord = node.dataset.chord;
+        let steps = chordToSteps(chord);
+        steps = (steps - key + 12) % 12 + 1; // 1-indexed
+        node.dataset.steps = '' + steps;
+    });
 }
 
 function setKey() {
     let offset = parseInt((<HTMLInputElement>document.getElementById('transpose')).value);
+    let isNashville = document.getElementById('button-number').classList.contains('active');
     document.querySelectorAll('.chord-name').forEach((node: HTMLElement) => {
         let chord = node.dataset.chord;
-        console.log(chord, chordToSteps(chord));
-        node.innerHTML = transposeChord(chord, offset);
+        let steps = null;
+        try {
+            steps = parseInt(node.dataset.steps);
+        } catch {}
+        let chordNumber = chordData.steps.indexOf(steps - 1) + 1;
+        if (chordNumber > 0 && isNashville) {
+            let suffix = chord.substring(getRoot(chord).length);
+            if (/[0-9]/.test(suffix[0])) {
+                suffix = '-' + suffix;
+            }
+            node.innerHTML = chordNumber + suffix;
+        } else {
+            node.innerHTML = transposeChord(chord, offset);
+        }
     });
 }
 
@@ -57,17 +142,21 @@ function getRoot(chord: string) {
     return matches[0];
 }
 
+function getKeyNameForStep(root: number) {
+    for (let [k, v] of chordMap.entries()) {
+        if (root == v) {
+            return k;
+        }
+    }
+}
+
 function transposeChord(chord: string, steps: number) {
+    let suffix = chord.substring(getRoot(chord).length);
     let root = chordToSteps(chord);
     root = root + steps;
     while (root < 1) root += 12;
     root = ((root - 1) % 12) + 1;
-    for (let [k, v] of chordMap.entries()) {
-        if (root == v) {
-            return k + chord.substring(chord.length);
-        }
-    }
-
+    return getKeyNameForStep(root) + suffix;
 }
 
 function chordToSteps(chord: string) {
@@ -107,7 +196,28 @@ export function init() {
         }
     });
 
-    document.getElementById('transpose').onchange = (e) => {
+    let transposeInput = document.getElementById('transpose') as HTMLInputElement;
+    transposeInput.onchange = (e) => {
+        setKey();
+    };
+
+    let buttonLetter = document.getElementById('button-letter');
+    let buttonNumber = document.getElementById('button-number');
+    buttonLetter.onclick = () => {
+        buttonLetter.classList.add('active');
+        buttonNumber.classList.remove('active');
+        buttonLetter.ariaCurrent = 'page';
+        buttonNumber.ariaCurrent = '';
+        transposeInput.disabled = false;
+        setKey();
+    };
+
+    buttonNumber.onclick = () => {
+        buttonLetter.classList.remove('active');
+        buttonNumber.classList.add('active');
+        buttonLetter.ariaCurrent = '';
+        buttonNumber.ariaCurrent = 'page';
+        transposeInput.disabled = true;
         setKey();
     };
 }

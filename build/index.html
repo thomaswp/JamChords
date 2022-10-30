@@ -20,17 +20,29 @@
                 <span class="fs-5 fw-semibold">Song List</span>
             </div>
             <div class="list-group list-group-flush border-bottom scrollarea">
-                <a id="sidebar-item-template" href="#" class="hidden list-group-item list-group-item-action active py-3 lh-sm">
+                <a id="sidebar-item-template" href="#"
+                    class="hidden list-group-item list-group-item-action active py-3 lh-sm">
                     <div class="d-flex w-100 align-items-center justify-content-between">
-                        <strong class="mb-1 list-item-title">List group item heading</strong>
+                        <strong class="mb-1 list-item-title"></strong>
                     </div>
-                    <div class="col-10 mb-1 small list-item-description">Some placeholder content in a paragraph below the heading and date.</div>
+                    <div class="col-10 mb-1 small list-item-description"></div>
                 </a>
             </div>
         </div>
         <div id="song">
-            <h1 id="title"></h1> 
-            <p>Transpose: <input id="transpose" type="number" value="0"/></p>
+            <h1 id="title"></h1>
+            <div class="song-options">
+                <div style="display:inline-block">
+                    <p>Key Guess: <span id="key-guess"></span></p>
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="button-letter" type="button" class="btn btn-outline-primary active" aria-current="page">C/F/G</button>
+                    <button id="button-number" type="button" class="btn btn-outline-primary">1/4/5</button>
+                </div>
+                <div style="display:inline-block">
+                    <p>Transpose: <input id="transpose" type="number" value="0" /></p>
+                </div>
+            </div>
             <p id="metadata"></p>
             <p id="content"></p>
         </div>
