@@ -17,7 +17,16 @@
     <main class="d-flex flex-nowrap">
         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white sidebar">
             <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-                <span class="fs-5 fw-semibold">Song List</span>
+                <div><span class="fs-5 fw-semibold">Song List</span></div>
+                <!-- <div class="input-group">
+                    <div class="form-outline">
+                        <input type="search" id="form1" class="form-control" />
+                        <label class="form-label" for="form1">Search</label>
+                    </div>
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div> -->
             </div>
             <div class="list-group list-group-flush border-bottom scrollarea">
                 <a id="sidebar-item-template" href="#"
@@ -36,7 +45,8 @@
                     <p>Key Guess: <span id="key-guess"></span></p>
                 </div>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="button-letter" type="button" class="btn btn-outline-primary active" aria-current="page">C/F/G</button>
+                    <button id="button-letter" type="button" class="btn btn-outline-primary active"
+                        aria-current="page">C/F/G</button>
                     <button id="button-number" type="button" class="btn btn-outline-primary">1/4/5</button>
                 </div>
                 <div style="display:inline-block">

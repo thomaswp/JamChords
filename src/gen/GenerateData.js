@@ -20,9 +20,18 @@ function parseSong(text) {
         if (metadata.length > 0) metadata += '\n';
         metadata += line.trim();
     }
-    while (i < lines.length && lines[i].length == 0) i++;
+    let content = '';
+    if ((metadata.match(/\[([A-Ga-gmb#74]+)\]/g) || []).length > 1) {
+        content += metadata + '\n';
+        metadata = '';
+    } else {
+        if (metadata.split('\n').length > 2) {
+            console.log(metadata);
+        }
+        while (i < lines.length && lines[i].length == 0) i++;
+    }
 
-    let content = lines.splice(i).join('\n').trim();
+    content += lines.splice(i).join('\n').trim();
 
     // console.log(title, metadata, text);
     return {
