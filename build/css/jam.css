@@ -39,7 +39,7 @@ main {
 }
 
 #content {
-    font-size: large;
+    font-size: 14pt;
     white-space: pre;
     column-fill: auto;
     column-rule: 1px #DDD solid;
@@ -59,4 +59,15 @@ main {
     color: rgb(35, 0, 82);
     margin-right: 2px;
     margin-left: 2px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }

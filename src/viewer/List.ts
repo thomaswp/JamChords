@@ -17,6 +17,7 @@ function activateChords() {
     let html = content.innerHTML;
     html = html.replace(/\[([A-Ga-gmb#74]+)\]/g, "<span class='chord'>[<span class='chord-name' data-chord='$1'>$1</span>]</span>");
     content.innerHTML = html;
+    setTextSize();
     setKeyData();
     setKey();
 }
@@ -168,6 +169,11 @@ function chordToSteps(chord: string) {
     return null;
 }
 
+function setTextSize() {
+    let content = document.getElementById('content');
+    content.style.fontSize = (document.getElementById('text-size') as HTMLInputElement).value + 'pt';
+}
+
 export function init() {
     let list = document.querySelector('.scrollarea');
     let activeItem = null;
@@ -219,5 +225,15 @@ export function init() {
         buttonNumber.ariaCurrent = 'page';
         transposeInput.disabled = true;
         setKey();
+    };
+
+    let textSize = document.getElementById('text-size') as HTMLInputElement;
+    document.getElementById('text-plus').onclick = () => {
+        textSize.value = "" + (parseInt(textSize.value) + 1);
+        setTextSize();
+    };
+    document.getElementById('text-minus').onclick = () => {
+        textSize.value = "" + (parseInt(textSize.value) - 1);
+        setTextSize();
     };
 }
