@@ -84,8 +84,8 @@ function argMax(array) {
 
 function setKeyData() {
     let key = guessKey();
-    console.log(key);
-    document.getElementById('key-guess').innerHTML = getKeyNameForStep(key);
+    // console.log(key);
+    document.getElementById('key-guess').dataset.baseKey = key;
     document.querySelectorAll('.chord-name').forEach((node: HTMLElement) => {
         let chord = node.dataset.chord;
         let steps = chordToSteps(chord);
@@ -96,6 +96,10 @@ function setKeyData() {
 
 function setKey() {
     let offset = parseInt((<HTMLInputElement>document.getElementById('transpose')).value);
+    let keyGuess = document.getElementById('key-guess');
+    let offsetKey = (parseInt(keyGuess.dataset.baseKey) + offset + 12 - 1) % 12 + 1;
+    console.log(keyGuess.dataset.baseKey, offsetKey);
+    keyGuess.innerHTML = getKeyNameForStep(offsetKey);
     let isNashville = document.getElementById('button-number').classList.contains('active');
     document.querySelectorAll('.chord-name').forEach((node: HTMLElement) => {
         let chord = node.dataset.chord;
@@ -202,8 +206,32 @@ export function init() {
         }
     });
 
+    let textSize = document.getElementById('text-size') as HTMLInputElement;
+    textSize.onchange = (e) => {
+        setTextSize();
+    };
+    document.getElementById('text-plus').onclick = () => {
+        textSize.value = "" + (parseInt(textSize.value) + 1);
+        setTextSize();
+    };
+    document.getElementById('text-minus').onclick = () => {
+        textSize.value = "" + (parseInt(textSize.value) - 1);
+        setTextSize();
+    };
+
+
     let transposeInput = document.getElementById('transpose') as HTMLInputElement;
+    let keyPlus = document.getElementById('key-plus') as HTMLInputElement;
+    let keyMinus = document.getElementById('key-minus') as HTMLInputElement;
     transposeInput.onchange = (e) => {
+        setKey();
+    };
+    keyPlus.onclick = () => {
+        transposeInput.value = "" + (parseInt(transposeInput.value) + 1);
+        setKey();
+    };
+    keyMinus.onclick = () => {
+        transposeInput.value = "" + (parseInt(transposeInput.value) - 1);
         setKey();
     };
 
@@ -215,6 +243,8 @@ export function init() {
         buttonLetter.ariaCurrent = 'page';
         buttonNumber.ariaCurrent = '';
         transposeInput.disabled = false;
+        keyPlus.disabled = false;
+        keyMinus.disabled = false;
         setKey();
     };
 
@@ -224,16 +254,8 @@ export function init() {
         buttonLetter.ariaCurrent = '';
         buttonNumber.ariaCurrent = 'page';
         transposeInput.disabled = true;
+        keyPlus.disabled = true;
+        keyMinus.disabled = true;
         setKey();
-    };
-
-    let textSize = document.getElementById('text-size') as HTMLInputElement;
-    document.getElementById('text-plus').onclick = () => {
-        textSize.value = "" + (parseInt(textSize.value) + 1);
-        setTextSize();
-    };
-    document.getElementById('text-minus').onclick = () => {
-        textSize.value = "" + (parseInt(textSize.value) - 1);
-        setTextSize();
     };
 }

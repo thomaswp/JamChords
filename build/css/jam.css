@@ -71,3 +71,15 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+
+.input-group > .plus-minus-input {
+    width: 50px;
+    text-align: center;
+}
+
+.option-header {
+    margin-left: 25px;
+    display: inline-block;
+    font-size: 14pt;
+    margin-right: 5px;
+}
