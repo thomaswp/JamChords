@@ -40,27 +40,50 @@
         </div>
         <div id="song">
             <div class="song-options">
-                <span class="option-header">Style:</span>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="button-letter" type="button" class="btn btn-outline-primary active"
-                        aria-current="page">C/F/G</button>
-                    <button id="button-number" type="button" class="btn btn-outline-primary">1/4/5</button>
+                <div class="option-item">
+                    <span class="option-header">Style:</span>
+                    <div style="display:inline-block">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button id="button-letter" type="button" class="btn btn-outline-primary active"
+                                aria-current="page">C/F/G</button>
+                            <button id="button-number" type="button" class="btn btn-outline-primary">1/4/5</button>
+                        </div>
+                    </div>
                 </div>
-                <span class="option-header" style="min-width: 80px;">Key (<span id="key-guess"></span>):</span>
-                <div style="display:inline-block">
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="key-minus">-</button>
-                        <input id="transpose" type="number" min="-11" max="11" class="form-control plus-minus-input" value="0" >
-                        <button class="btn btn-outline-secondary" type="button" id="key-plus">+</button>
-                      </div>
+                <div class="option-item">
+                    <span class="option-header" style="min-width: 80px;">Key (<span id="key-guess"></span>):</span>
+                    <div style="display:inline-block">
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary" type="button" id="key-minus">-</button>
+                            <input id="transpose" type="number" min="-11" max="11" class="form-control plus-minus-input"
+                                value="0">
+                            <button class="btn btn-outline-secondary" type="button" id="key-plus">+</button>
+                        </div>
+                    </div>
                 </div>
-                <span class="option-header">Font Size:</span>
-                <div style="display:inline-block">
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="text-minus">-</button>
-                        <input id="text-size" type="number" min="8" max="60" class="plus-minus-input form-control" value="14" >
-                        <button class="btn btn-outline-secondary" type="button" id="text-plus">+</button>
-                      </div>
+                <div class="option-item">
+                    <span class="option-header">Font Size:</span>
+                    <div style="display:inline-block">
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary" type="button" id="text-minus">-</button>
+                            <input id="text-size" type="number" min="8" max="60" class="plus-minus-input form-control"
+                                value="14">
+                            <button class="btn btn-outline-secondary" type="button" id="text-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-item">
+                    <span class="option-header">Columns:</span>
+                    <div style="display: inline-block">
+                        <div class="input-group mb-3">
+                            <button id="button-col-auto" type="button" class="btn btn-outline-primary active"
+                                aria-current="page">Auto</button>
+                            <button id="button-col-1" data-columns="1" type="button"
+                                class="btn btn-outline-primary">1</button>
+                            <button id="button-col-2" data-columns="2" type="button"
+                                class="btn btn-outline-primary">2</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <h1 id="title"></h1>

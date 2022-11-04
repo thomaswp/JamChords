@@ -91,3 +91,7 @@ input[type=number] {
     font-size: 14pt;
     margin-right: 5px;
 }
+
+.option-item {
+    display: inline-block;
+}

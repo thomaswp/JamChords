@@ -1,5 +1,7 @@
 import songs from '../data/Songs.json'
 
+let textColumns: number = null;
+
 interface Song {
     title: string; metadata: string; content: string;
 }
@@ -178,6 +180,11 @@ function setTextSize() {
     let size = parseInt((document.getElementById('text-size') as HTMLInputElement).value);
     content.style.fontSize = size + 'pt';
 
+    if (textColumns != null) {
+        content.classList.toggle('twoColumn', textColumns == 2);
+        return;
+    }
+
     let song = document.getElementById('song') as HTMLElement;
     let width = song.offsetWidth;
 
@@ -254,31 +261,33 @@ export function init() {
         setKey();
     };
 
-    let buttonLetter = document.getElementById('button-letter');
-    let buttonNumber = document.getElementById('button-number');
-    buttonLetter.onclick = () => {
-        buttonLetter.classList.add('active');
-        buttonNumber.classList.remove('active');
-        buttonLetter.ariaCurrent = 'page';
-        buttonNumber.ariaCurrent = '';
-        transposeInput.disabled = false;
-        keyPlus.disabled = false;
-        keyMinus.disabled = false;
+    setupToggleButtons((button) => {
+        let isABC = button.id == 'button-letter';
+        transposeInput.disabled = !isABC;
+        keyPlus.disabled = !isABC;
+        keyMinus.disabled = !isABC;
         setKey();
-    };
+    }, 'button-letter', 'button-number');
 
-    buttonNumber.onclick = () => {
-        buttonLetter.classList.remove('active');
-        buttonNumber.classList.add('active');
-        buttonLetter.ariaCurrent = '';
-        buttonNumber.ariaCurrent = 'page';
-        transposeInput.disabled = true;
-        keyPlus.disabled = true;
-        keyMinus.disabled = true;
-        setKey();
-    };
+    setupToggleButtons((button) => {
+        let cols = button.dataset.columns;
+        textColumns = cols == null ? null : parseInt(cols);
+        setTextSize();
+    }, 'button-col-auto', 'button-col-1', 'button-col-2');
 
     window.onresize = () => {
         setTextSize();
     }
+}
+
+function setupToggleButtons(callback: (button: HTMLButtonElement) => void, ...ids: string[]) {
+    let buttons = ids.map(id => document.getElementById(id)) as [HTMLButtonElement];
+    buttons.forEach(current => current.onclick = () => {
+        buttons.forEach(button => {
+            let active = button == current;
+            button.classList.toggle('active', active);
+            button.ariaCurrent = active ? 'page' : '';
+        });
+        callback(current);
+    });
 }
