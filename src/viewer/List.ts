@@ -26,7 +26,7 @@ function activateChords() {
 
 const chordData = {
     majors: [1, 0, 0, 1, 1, 0, 1],
-    weights: [1, 0.5, 0.25, 1, 1, 1, 0],
+    weights: [1, 0.5, 0.25, 0.9, 0.9, 0.9, 0],
     steps: [0, 2, 4, 5, 7, 9, 11],
 };
 
@@ -38,7 +38,7 @@ function keyScore(keySteps: number, chordList: string[]) {
         step -= keySteps + 1; // 0-indexed
         while (step < 0) step += 12;
         step %= 12;
-        if (first != null) first = step;
+        if (first == null) first = step;
         let index = chordData.steps.indexOf(step);
         // console.log(step, index, chordData.majors[index], chordData.weights[index], score);
         if (index < 0) {
@@ -54,6 +54,7 @@ function keyScore(keySteps: number, chordList: string[]) {
     });
     // The first chord is a good indicator of the chord,
     // in case of near-ties
+    // console.log(keySteps, first);
     if (first == 0) score *= 1.2;
     return score;
 }
@@ -68,13 +69,10 @@ function guessKey() {
         let suffix = chord.includes('m') ? 'm' : '';
         chordList.push(step + suffix);
     });
-    console.log(chordList);
-    // keyScore(9, chordList);
-    // console.log('---');
-    // keyScore(2, chordList);
+    // console.log(chordList);
     let scores = [...Array(12).keys()].map(step => {
         let score = keyScore(step, chordList);
-        console.log(getKeyNameForStep(step + 1), score);
+        // console.log(getKeyNameForStep(step + 1), score);
         return score;
     });
     return argMax(scores) + 1; // 1-indexed
@@ -100,7 +98,7 @@ function setKey() {
     let offset = parseInt((<HTMLInputElement>document.getElementById('transpose')).value);
     let keyGuess = document.getElementById('key-guess');
     let offsetKey = (parseInt(keyGuess.dataset.baseKey) + offset + 12 - 1) % 12 + 1;
-    console.log(keyGuess.dataset.baseKey, offsetKey);
+    // console.log(keyGuess.dataset.baseKey, offsetKey);
     keyGuess.innerHTML = getKeyNameForStep(offsetKey);
     let isNashville = document.getElementById('button-number').classList.contains('active');
     document.querySelectorAll('.chord-name').forEach((node: HTMLElement) => {
@@ -196,7 +194,7 @@ function setTextSize() {
     }
 
     let estColumnSize = 0.55 * size * maxLength;
-    console.log(estColumnSize, width);
+    // console.log(estColumnSize, width);
     // If 2 columns (plus 1.2x buffer) are larger than width, set to 1-column mode
     content.classList.toggle('twoColumn', estColumnSize * 2 * 1.2 < width);
 }
