@@ -188,14 +188,14 @@ function setTextSize() {
     let song = document.getElementById('song') as HTMLElement;
     let width = song.offsetWidth;
 
-    let avgLength = 0;
+    let maxLength = 0;
     let lyrics = content.innerText;
     let lines = lyrics.split('\n').filter(l => l.length > 0);
     if (lines.length > 0) {
-        avgLength = lines.map(l => l.length).reduce((a, b) => a + b, 0) / lines.length;
+        maxLength = lines.map(l => l.length).reduce((a, b) => Math.max(a, b), 0);
     }
 
-    let estColumnSize = 0.9 * size * avgLength;
+    let estColumnSize = 0.55 * size * maxLength;
     console.log(estColumnSize, width);
     // If 2 columns (plus 1.2x buffer) are larger than width, set to 1-column mode
     content.classList.toggle('twoColumn', estColumnSize * 2 * 1.2 < width);
