@@ -48,11 +48,19 @@ main {
     /* margin-bottom: -20px; */
 }
 
-@media (min-width: 1200px) {
-    #content {
-        column-count: 2;
-    }
+#content.twoColumn {
+    column-count: 2;
 }
+
+/* :root {
+    --min-two-col-width: 1200px;
+}
+
+@media (min-width: var(--min-two-col-width)) {
+    #content {
+        
+    }
+} */
 
 .chord {
     font-weight: bold;

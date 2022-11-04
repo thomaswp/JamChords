@@ -175,7 +175,23 @@ function chordToSteps(chord: string) {
 
 function setTextSize() {
     let content = document.getElementById('content');
-    content.style.fontSize = (document.getElementById('text-size') as HTMLInputElement).value + 'pt';
+    let size = parseInt((document.getElementById('text-size') as HTMLInputElement).value);
+    content.style.fontSize = size + 'pt';
+
+    let song = document.getElementById('song') as HTMLElement;
+    let width = song.offsetWidth;
+
+    let avgLength = 0;
+    let lyrics = content.innerText;
+    let lines = lyrics.split('\n').filter(l => l.length > 0);
+    if (lines.length > 0) {
+        avgLength = lines.map(l => l.length).reduce((a, b) => a + b, 0) / lines.length;
+    }
+
+    let estColumnSize = 0.9 * size * avgLength;
+    console.log(estColumnSize, width);
+    // If 2 columns (plus 1.2x buffer) are larger than width, set to 1-column mode
+    content.classList.toggle('twoColumn', estColumnSize * 2 * 1.2 < width);
 }
 
 export function init() {
@@ -207,31 +223,34 @@ export function init() {
     });
 
     let textSize = document.getElementById('text-size') as HTMLInputElement;
+    let maxFont = parseInt(textSize.getAttribute('max'));
+    let minFont = parseInt(textSize.getAttribute('min'));
     textSize.onchange = (e) => {
         setTextSize();
     };
     document.getElementById('text-plus').onclick = () => {
-        textSize.value = "" + (parseInt(textSize.value) + 1);
+        textSize.value = "" + Math.min(parseInt(textSize.value) + 1, maxFont);
         setTextSize();
     };
     document.getElementById('text-minus').onclick = () => {
-        textSize.value = "" + (parseInt(textSize.value) - 1);
+        textSize.value = "" + Math.max(parseInt(textSize.value) - 1, minFont);
         setTextSize();
     };
 
-
     let transposeInput = document.getElementById('transpose') as HTMLInputElement;
+    let maxKey = parseInt(transposeInput.getAttribute('max'));
+    let minKey = parseInt(transposeInput.getAttribute('min'));
     let keyPlus = document.getElementById('key-plus') as HTMLInputElement;
     let keyMinus = document.getElementById('key-minus') as HTMLInputElement;
     transposeInput.onchange = (e) => {
         setKey();
     };
     keyPlus.onclick = () => {
-        transposeInput.value = "" + (parseInt(transposeInput.value) + 1);
+        transposeInput.value = "" + Math.min(parseInt(transposeInput.value) + 1, maxKey);
         setKey();
     };
     keyMinus.onclick = () => {
-        transposeInput.value = "" + (parseInt(transposeInput.value) - 1);
+        transposeInput.value = "" + Math.max(parseInt(transposeInput.value) - 1, minKey);
         setKey();
     };
 
@@ -258,4 +277,8 @@ export function init() {
         keyMinus.disabled = true;
         setKey();
     };
+
+    window.onresize = () => {
+        setTextSize();
+    }
 }
