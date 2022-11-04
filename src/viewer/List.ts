@@ -232,6 +232,7 @@ export function init() {
             link.click();
         }
         if (hasTitle === song.title) {
+            link.scrollIntoView();
             link.click();
         }
     });
