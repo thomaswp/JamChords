@@ -209,7 +209,10 @@ export function init() {
         link.classList.remove('hidden');
         link.classList.remove('active');
         link.querySelector(".list-item-title").innerHTML = song.title;
-        link.querySelector(".list-item-description").innerHTML = song.metadata;
+        let metadata = song.metadata || '';
+        let maxLength = 50;
+        if (metadata.length > maxLength) metadata = metadata.substring(0, maxLength) + '...';
+        link.querySelector(".list-item-description").innerHTML = metadata;
         link.href = '#';
         link.onclick = () => {
             if (activeItem) {
