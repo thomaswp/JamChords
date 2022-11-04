@@ -202,6 +202,7 @@ function setTextSize() {
 export function init() {
     let list = document.querySelector('.scrollarea');
     let activeItem = null;
+    let hasTitle = decodeURI(document.location.hash.substring(1));
     songs.forEach(song => {
         // console.log(song);
         let link = document.getElementById('sidebar-item-template').cloneNode(true) as HTMLAnchorElement;
@@ -214,7 +215,8 @@ export function init() {
         if (metadata.length > maxLength) metadata = metadata.substring(0, maxLength) + '...';
         link.querySelector(".list-item-description").innerHTML = metadata;
         link.href = '#';
-        link.onclick = () => {
+        link.onclick = (e) => {
+            document.location.hash = song.title;
             if (activeItem) {
                 activeItem.ariaCurrent = "false";
                 activeItem.classList.remove('active');
@@ -223,9 +225,13 @@ export function init() {
             link.ariaCurrent = "true";
             link.classList.add('active');
             switchToSong(song);
+            return false;
         }
         list.appendChild(link);
-        if (activeItem == null) {
+        if (hasTitle.length < 2 && activeItem == null) {
+            link.click();
+        }
+        if (hasTitle === song.title) {
             link.click();
         }
     });
