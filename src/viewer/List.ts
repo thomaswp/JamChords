@@ -286,6 +286,13 @@ export function init() {
     window.onresize = () => {
         setTextSize();
     }
+
+    let closeButton = document.getElementById('close-button');
+    closeButton.onclick = () => {
+        closeButton.classList.toggle('bi-arrow-bar-left');
+        closeButton.classList.toggle('bi-arrow-bar-right');
+        document.getElementById('sidebar').classList.toggle('minimized');
+    }
 }
 
 function setupToggleButtons(callback: (button: HTMLButtonElement) => void, ...ids: string[]) {

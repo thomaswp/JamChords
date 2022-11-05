@@ -4,6 +4,7 @@
 <head>
     <script src="js/jam.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
     <link href="css/jam.css" rel="stylesheet">
 
     <style>
@@ -15,9 +16,9 @@
 
 <body>
     <main class="d-flex flex-nowrap">
-        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white sidebar">
+        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white sidebar" id="sidebar">
             <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-                <div><span class="fs-5 fw-semibold">Song List</span></div>
+                <div style="width:100%"><span class="fs-5 fw-semibold">Song List</span></div>
                 <!-- <div class="input-group">
                     <div class="form-outline">
                         <input type="search" id="form1" class="form-control" />
@@ -40,6 +41,7 @@
         </div>
         <div id="song">
             <div class="song-options">
+                <button id="close-button" class="btn btn-outline-secondary close-button bi bi-arrow-bar-left"></button>
                 <div class="option-item">
                     <span class="option-header">Style:</span>
                     <div style="display:inline-block">
