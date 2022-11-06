@@ -22,11 +22,11 @@
     }
 }
 
-/* @media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) {
     :root {
         font-size: 18px;
     }
-} */
+}
 
 main {
     height: 100vh;
@@ -120,15 +120,26 @@ input[type=number] {
 }
 
 .input-group > .plus-minus-input {
-    width: 70px;
+    width: 3rem;
     text-align: center;
 }
 
 .option-header {
     margin-left: 25px;
     display: inline-block;
-    font-size: 2vh;
     margin-right: 5px;
+}
+
+.option-item {
+    font-size: 0.9rem;
+}
+
+.option-item button {
+    font-size: 0.9rem;
+}
+
+.option-item input {
+    font-size: 0.9rem;
 }
 
 .option-item {
