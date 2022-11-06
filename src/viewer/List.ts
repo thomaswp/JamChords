@@ -283,9 +283,8 @@ export function init() {
         setTextSize();
     }, 'button-col-auto', 'button-col-1', 'button-col-2');
 
-    window.onresize = () => {
-        setTextSize();
-    }
+    new ResizeObserver(() => setTextSize()).observe(
+        document.getElementById('content'));
 
     let closeButton = document.getElementById('close-button');
     closeButton.onclick = () => {
