@@ -7,7 +7,10 @@ const fs = require('fs');
 const languageEncoding = require("detect-file-encoding-and-language");
 
 //joining path of directory
-const directoryPath = path.join(__dirname, '../../data');
+const directoryPaths = [
+    'PackPickers',
+    'PullenPickers',
+];
 
 function parseSong(text) {
     let lines = text.split('\n');
@@ -41,7 +44,7 @@ function parseSong(text) {
     }
 }
 
-async function readSongs() {
+async function readSongs(directoryPath) {
     console.log("!", directoryPath);
     //passsing directoryPath and callback function
     let files = fs.readdirSync(directoryPath);
@@ -49,7 +52,7 @@ async function readSongs() {
     //listing all files using forEach
     let songs = [];
     for (let file of files) {
-        if (!file.endsWith('.onsong')) return;
+        if (!file.endsWith('.onsong') && !file.endsWith('.txt')) return;
         let newPath = path.join(directoryPath, file);
         const enc = await languageEncoding(newPath);
         // console.log(file);
@@ -72,8 +75,13 @@ async function readSongs() {
 }
 
 (async () => {
-    let songs = await readSongs();
+    let allSongs = [];
+    for (let directoryPath of directoryPaths) {
+        let songs = await readSongs(path.join(__dirname, '../../data', directoryPath));
+        allSongs = allSongs.concat(songs);
+    }
+    allSongs.sort((a, b) => a.title.localeCompare(b.title));
     // let js = 'export const songs = ' + JSON.stringify(songs);
 
-    fs.writeFileSync(path.join(__dirname, '../data/Songs.json'), JSON.stringify(songs, null, 4));
+    fs.writeFileSync(path.join(__dirname, '../data/Songs.json'), JSON.stringify(allSongs, null, 4));
 })();
