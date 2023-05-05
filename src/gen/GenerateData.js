@@ -44,7 +44,7 @@ function parseSong(text) {
     }
 }
 
-async function readSongs(directoryPath) {
+async function readSongs(directoryPath, category) {
     console.log("!", directoryPath);
     //passsing directoryPath and callback function
     let files = fs.readdirSync(directoryPath);
@@ -65,7 +65,9 @@ async function readSongs(directoryPath) {
             //     s.items.forEach(i => i.lines.forEach(p => p.parts.forEach(console.log)));
             // });
             // console.log(song.metadata.title);
-            songs.push(parseSong(text));
+            let song = parseSong(text);
+            song.category = category;
+            songs.push(song);
         } catch (e) {
             console.error('Failed to parse', e);
         }
@@ -77,7 +79,7 @@ async function readSongs(directoryPath) {
 (async () => {
     let allSongs = [];
     for (let directoryPath of directoryPaths) {
-        let songs = await readSongs(path.join(__dirname, '../../data', directoryPath));
+        let songs = await readSongs(path.join(__dirname, '../../data', directoryPath), directoryPath);
         allSongs = allSongs.concat(songs);
     }
     allSongs.sort((a, b) => a.title.localeCompare(b.title));

@@ -19,7 +19,15 @@
     <main class="d-flex flex-nowrap">
         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white sidebar" id="sidebar">
             <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-                <div style="width:100%"><span class="fs-5 fw-semibold">Song List</span></div>
+                <div style="width:100%">
+                    <span class="fs-5 fw-semibold">Song List</span>
+                    <input type="checkbox" class="btn-check category-button" id="btn-pack" autocomplete="off" checked data-category="PackPickers">
+                    <label class="btn btn-outline-primary category-label" for="btn-pack" title="Pack Pickers Songs"><i class="bi bi-mortarboard-fill"></i></label>
+                    <input type="checkbox" class="btn-check category-button" id="btn-pullen" autocomplete="off" checked data-category="PullenPickers">
+                    <label class="btn btn-outline-primary category-label" for="btn-pullen" title="Pullen Pickers Songs"><i class="bi bi-hospital-fill"></i></label>
+                    <!-- <button class="category-button">N</button>
+                    <button class="category-button" data-category="PullenPickers">P</button> -->
+                </div>
                 <!-- <div class="input-group">
                     <div class="form-outline">
                         <input type="search" id="form1" class="form-control" />
@@ -30,7 +38,7 @@
                     </button>
                 </div> -->
             </div>
-            <div class="list-group list-group-flush border-bottom scrollarea">
+            <div style="display: none;">
                 <a id="sidebar-item-template" href="#"
                     class="hidden list-group-item list-group-item-action active py-3 lh-sm">
                     <div class="d-flex w-100 align-items-center justify-content-between">
@@ -38,6 +46,8 @@
                     </div>
                     <div class="col-10 mb-1 small list-item-description"></div>
                 </a>
+            </div>
+            <div class="list-group list-group-flush border-bottom scrollarea">
             </div>
         </div>
         <div id="song">

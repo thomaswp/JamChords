@@ -208,11 +208,21 @@ function isMobile() {
     return check;
 };
 
-export function init() {
+function populateSongs() {
+    let categories = [];
+    document.querySelectorAll('.category-button').forEach(element => {
+        let button = <HTMLInputElement>element;
+        let category = button.dataset.category;
+        let checked = button.checked;
+        if (checked) categories.push(category);
+    });
+
     let list = document.querySelector('.scrollarea');
+    list.innerHTML = '';
     let activeItem = null;
-    let hasTitle = decodeURI(document.location.hash.substring(1));
+    let hashTitle = decodeURI(document.location.hash.substring(1));
     songs.forEach(song => {
+        if (categories.length > 0 && !categories.includes(song.category)) return;
         // console.log(song);
         let link = document.getElementById('sidebar-item-template').cloneNode(true) as HTMLAnchorElement;
         link.id = null;
@@ -237,12 +247,23 @@ export function init() {
             return false;
         }
         list.appendChild(link);
-        if (hasTitle.length < 2 && activeItem == null) {
+        if (hashTitle.length < 2 && activeItem == null) {
             link.click();
         }
-        if (hasTitle === song.title) {
+        if (hashTitle === song.title) {
             link.scrollIntoView();
             link.click();
+        }
+    });
+}
+
+export function init() {
+    populateSongs();    
+
+    document.querySelectorAll('.category-button').forEach(element => {
+        let button = <HTMLInputElement>element;
+        button.onclick = () => {
+            populateSongs();
         }
     });
 

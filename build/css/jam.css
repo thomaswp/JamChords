@@ -145,3 +145,9 @@ input[type=number] {
 .option-item {
     display: inline-block;
 }
+
+.category-label {
+    --bs-btn-padding-x: 0.45rem;
+    --bs-btn-padding-y: 0.175rem;
+    margin-left: 0.35rem;
+}
