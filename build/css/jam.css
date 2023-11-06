@@ -151,3 +151,9 @@ input[type=number] {
     --bs-btn-padding-y: 0.175rem;
     margin-left: 0.35rem;
 }
+
+#star-toggle {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}

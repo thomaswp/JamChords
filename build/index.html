@@ -39,13 +39,17 @@
                 </div> -->
             </div>
             <div style="display: none;">
-                <a id="sidebar-item-template" href="#"
-                    class="hidden list-group-item list-group-item-action active py-3 lh-sm">
-                    <div class="d-flex w-100 align-items-center justify-content-between">
-                        <strong class="mb-1 list-item-title"></strong>
-                    </div>
-                    <div class="col-10 mb-1 small list-item-description"></div>
-                </a>
+                <div id="sidebar-item-template">
+                    <a  href="#"
+                        class="hidden list-group-item list-group-item-action active py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1 list-item-title"></strong>
+                            <i class="bi bi-star-fill hidden"></i>
+                        </div>
+                        <div class="col-10 mb-1 small list-item-description"></div>
+                    </a>
+                </div>
+                
             </div>
             <div class="list-group list-group-flush border-bottom scrollarea">
             </div>
@@ -99,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <h1 id="title"></h1>
+            <h1><span id="title"></span><i id="star-toggle" class="bi bi-star"></i></h1>
             <p id="metadata"></p>
             <p id="content"></p>
         </div>

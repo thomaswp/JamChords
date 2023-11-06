@@ -220,11 +220,33 @@ function populateSongs() {
     let list = document.querySelector('.scrollarea');
     list.innerHTML = '';
     let activeItem = null;
+    let activeSong = null;
+
+    let starToggle = document.getElementById("star-toggle") as HTMLElement;
+    let starredSongs = [];
+    let stored = localStorage.getItem('starredSongs');
+    if (stored) {
+        starredSongs = JSON.parse(stored);
+    }
+    function setStarred(starred: boolean) {
+        starToggle.classList.toggle('bi-star', !starred);
+        starToggle.classList.toggle('bi-star-fill', starred);
+    }
+    function isStarred(song: Song) {
+        return starredSongs.includes(song.title);
+    }
+
     let hashTitle = decodeURI(document.location.hash.substring(1));
+    songs.sort((a, b) => {
+        if (isStarred(a) && !isStarred(b)) return -1;
+        if (!isStarred(a) && isStarred(b)) return 1;
+        return a.title.localeCompare(b.title);
+    });
     songs.forEach(song => {
         if (categories.length > 0 && !categories.includes(song.category)) return;
         // console.log(song);
-        let link = document.getElementById('sidebar-item-template').cloneNode(true) as HTMLAnchorElement;
+        let div = document.getElementById('sidebar-item-template').cloneNode(true) as HTMLDivElement;
+        let link = div.getElementsByTagName('a')[0]; 
         link.id = null;
         link.classList.remove('hidden');
         link.classList.remove('active');
@@ -241,12 +263,17 @@ function populateSongs() {
                 activeItem.classList.remove('active');
             }
             activeItem = link;
+            activeSong = song;
             link.ariaCurrent = "true";
             link.classList.add('active');
+            setStarred(isStarred(song));
             switchToSong(song);
             return false;
         }
-        list.appendChild(link);
+        let star = div.querySelector("i.bi");
+        star.classList.toggle('hidden', !isStarred(song));
+
+        list.appendChild(div);
         if (hashTitle.length < 2 && activeItem == null) {
             link.click();
         }
@@ -255,6 +282,21 @@ function populateSongs() {
             link.click();
         }
     });
+
+    starToggle.onclick = () => {
+        if (!activeSong) return;
+        let active = !starToggle.classList.contains('bi-star-fill');
+        setStarred(active);
+        if (active) {
+            if (!starredSongs.includes(activeSong.title)) {
+                starredSongs.push(activeSong.title);
+            }
+        } else {
+            starredSongs = starredSongs.filter(s => s != activeSong.title);
+        }
+        localStorage.setItem('starredSongs', JSON.stringify(starredSongs));
+        populateSongs();
+    };
 }
 
 export function init() {
