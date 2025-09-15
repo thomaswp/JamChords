@@ -13,13 +13,17 @@ const directoryPaths = [
 ];
 
 function parseSong(text) {
+    text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     let lines = text.split('\n');
     let title = lines[0].trim();
     let metadata = '';
     let i = 1;
+    if (title === 'Columbus Stockade') {
+        console.log(text);
+    }
     for (; i < lines.length; i++) {
         let line = lines[i];
-        if (line.length == 0) break;
+        if (line.trim().length == 0) break;
         if (metadata.length > 0) metadata += '\n';
         metadata += line.trim();
     }
