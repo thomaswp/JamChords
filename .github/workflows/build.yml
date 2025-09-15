@@ -1,0 +1,33 @@
+name: Gen, Build, Deploy
+
+on:
+  push:
+    branches:
+      - master  # or your default branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # pick your version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate
+        run: npm run gen
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload built site to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
