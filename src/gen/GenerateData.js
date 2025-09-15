@@ -87,5 +87,8 @@ async function readSongs(directoryPath, category) {
     allSongs.sort((a, b) => a.title.localeCompare(b.title));
     // let js = 'export const songs = ' + JSON.stringify(songs);
 
-    fs.writeFileSync(path.join(__dirname, '../data/Songs.json'), JSON.stringify(allSongs, null, 4));
+    // make directories
+    const dataDir = path.join(__dirname, '../data');
+    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
+    fs.writeFileSync(path.join(dataDir, 'Songs.json'), JSON.stringify(allSongs, null, 4));
 })();
