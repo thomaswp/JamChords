@@ -38,7 +38,7 @@ function parseSong(text) {
         while (i < lines.length && lines[i].length == 0) i++;
     }
 
-    content += lines.splice(i).join('\n').trim();
+    content += lines.splice(i).map(line => line.trim()).join('\n').trim();
 
     // console.log(title, metadata, text);
     return {
