@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - master  # or your default branch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
