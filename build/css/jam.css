@@ -71,7 +71,6 @@ main {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
 }
 
 #metadata {
@@ -80,15 +79,23 @@ main {
 
 #content {
     white-space: pre;
-    column-fill: auto;
     column-rule: 1px #DDD solid;
     column-gap: 25px;
+}
+
+.scroll-container {
     height: 100%;
-    /* margin-bottom: -20px; */
+    overflow-y: auto;
+}
+
+#content > .unbreakable {
+    break-inside: avoid;
+    display: block;
 }
 
 #content.twoColumn {
     column-count: 2;
+    /* column-fill: auto; */
 }
 
 /* :root {

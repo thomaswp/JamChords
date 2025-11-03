@@ -14,9 +14,19 @@ function switchToSong(song: Song) {
     activateChords();
 }
 
+function wrapParagraphs(text) {
+  return text
+    .trim()
+    // split on blank lines: \n\n OR \r\n\r\n OR mixed
+    .split(/\r?\n\r?\n+/)
+    .map(p => `<span class="unbreakable">${p}</span>`)
+    .join("\n\n");
+}
+
 function activateChords() {
     let content = document.getElementById('content');
     let html = content.innerHTML;
+    html = wrapParagraphs(html);
     html = html.replace(/\[([A-Ga-gmb#74]+)\]/g, "<span class='chord'>[<span class='chord-name' data-chord='$1'>$1</span>]</span>");
     content.innerHTML = html;
     setTextSize();
@@ -195,11 +205,19 @@ function chordToSteps(chord: string) {
 
 function setTextSize() {
     let content = document.getElementById('content');
+    const scrollContainer = document.querySelector('.scroll-container');
     let size = parseInt((document.getElementById('text-size') as HTMLInputElement).value);
     content.style.fontSize = (size / 14) + 'rem';
 
     let actualSize = parseFloat(getComputedStyle(content).fontSize);
     // console.log(size, actualSize);
+
+    content.classList.remove('twoColumn');
+    // If no overflow, there's no need for columns
+    console.log(scrollContainer.scrollHeight, scrollContainer.clientHeight);
+    if (scrollContainer.scrollHeight <= scrollContainer.clientHeight) {
+        return;
+    }
 
     if (textColumns != null) {
         content.classList.toggle('twoColumn', textColumns == 2);
@@ -376,7 +394,7 @@ export function init() {
     }, 'button-col-auto', 'button-col-1', 'button-col-2');
 
     new ResizeObserver(() => setTextSize()).observe(
-        document.getElementById('content'));
+        document.querySelector('.scroll-container'));
 
     let closeButton = document.getElementById('close-button');
     closeButton.onclick = () => {
