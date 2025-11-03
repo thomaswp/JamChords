@@ -212,15 +212,15 @@ function setTextSize() {
     let actualSize = parseFloat(getComputedStyle(content).fontSize);
     // console.log(size, actualSize);
 
+    if (textColumns != null) {
+        content.classList.toggle('twoColumn', textColumns == 2);
+        return;
+    }
+    
     content.classList.remove('twoColumn');
     // If no overflow, there's no need for columns
     console.log(scrollContainer.scrollHeight, scrollContainer.clientHeight);
     if (scrollContainer.scrollHeight <= scrollContainer.clientHeight) {
-        return;
-    }
-
-    if (textColumns != null) {
-        content.classList.toggle('twoColumn', textColumns == 2);
         return;
     }
 
