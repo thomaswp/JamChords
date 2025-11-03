@@ -10,7 +10,7 @@ function switchToSong(song: Song) {
     document.getElementById('title').innerHTML = song.title;
     document.getElementById('metadata').innerHTML = song.metadata;
     document.getElementById('content').innerHTML = song.content;
-    (<HTMLInputElement>document.getElementById('transpose')).value = '0';
+    (<HTMLInputElement>document.getElementById('transpose')).value = loadData(getSongDataKey(song.title, TRANSPOSE_TAG), '0');
     activateChords();
 }
 
@@ -94,8 +94,28 @@ function setKeyData() {
     });
 }
 
+function saveData(key: string, value: any) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function loadData(key: string, defaultValue: any) {
+    if (!localStorage) return defaultValue;
+    let stored = localStorage.getItem(key);
+    if (stored) {
+        return JSON.parse(stored);
+    }
+    return defaultValue;
+}
+
+function getSongDataKey(song: string, tag: string) {
+    return `song:${song}:${tag}`;
+}
+
+const TRANSPOSE_TAG = 'transpose';
+
 function setKey() {
     let offset = parseInt((<HTMLInputElement>document.getElementById('transpose')).value);
+    saveData(getSongDataKey(document.getElementById('title').innerHTML, TRANSPOSE_TAG), offset);
     let keyGuess = document.getElementById('key-guess');
     let offsetKey = (parseInt(keyGuess.dataset.baseKey) + offset + 12 - 1) % 12 + 1;
     // console.log(keyGuess.dataset.baseKey, offsetKey);
