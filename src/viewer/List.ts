@@ -8,7 +8,7 @@ interface Song {
 
 function switchToSong(song: Song) {
     document.getElementById('title').innerHTML = song.title;
-    document.getElementById('metadata').innerHTML = song.metadata;
+    document.getElementById('metadata').innerHTML = song.metadata.replace(/\n/g, ' / ');;
     document.getElementById('content').innerHTML = song.content;
     (<HTMLInputElement>document.getElementById('transpose')).value = loadData(getSongDataKey(song.title, TRANSPOSE_TAG), '0');
     activateChords();
@@ -290,6 +290,7 @@ function populateSongs() {
         link.classList.remove('active');
         link.querySelector(".list-item-title").innerHTML = song.title;
         let metadata = song.metadata || '';
+        metadata = metadata.replace(/\n/g, ' / ');
         let maxLength = 50;
         if (metadata.length > maxLength) metadata = metadata.substring(0, maxLength) + '...';
         link.querySelector(".list-item-description").innerHTML = metadata;
