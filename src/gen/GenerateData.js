@@ -16,9 +16,9 @@ function parseSong(text) {
     let title = lines[0].trim();
     let metadata = '';
     let i = 1;
-    if (title === 'Columbus Stockade') {
-        console.log(text);
-    }
+    // if (title === 'Columbus Stockade') {
+    //     console.log(text);
+    // }
     for (; i < lines.length; i++) {
         let line = lines[i];
         if (line.trim().length == 0) break;
@@ -31,7 +31,7 @@ function parseSong(text) {
         metadata = '';
     } else {
         if (metadata.split('\n').length > 2) {
-            console.log(metadata);
+            // console.log(metadata);
         }
         while (i < lines.length && lines[i].length == 0) i++;
     }
@@ -47,10 +47,10 @@ function parseSong(text) {
 }
 
 async function readSongs(directoryPath, category) {
-    console.log("!", directoryPath);
+    // console.log("!", directoryPath);
     //passsing directoryPath and callback function
     let files = fs.readdirSync(directoryPath);
-    console.log(files);
+    // console.log(files);
     //listing all files using forEach
     let songs = [];
     for (let file of files) {
