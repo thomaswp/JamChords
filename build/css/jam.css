@@ -91,6 +91,10 @@ main {
 #content > .unbreakable {
     break-inside: avoid;
     display: block;
+    /* The weird way we create unbreakable block paragraphs doubles
+     * whitespace, so we have to use negative margins to fix it.
+     */
+    margin-bottom: -1.5rem;
 }
 
 #content.twoColumn {
