@@ -345,14 +345,12 @@ export function init() {
         let button = <HTMLInputElement>element;
         const category = button.dataset.category;
         const isChecked = String(loadData('category:' + category, '1')) === '1';
-        console.log(category, isChecked);
         button.classList.toggle('active', isChecked);
         button.checked = isChecked;
         button.onclick = () => {
             if (category) {
-                let checked = button.classList.toggle('active');
+                let checked = button.checked;
                 localStorage.setItem('category:' + category, checked ? '1' : '0');
-                console.log(category, checked);
             }
             populateSongs();
         }
