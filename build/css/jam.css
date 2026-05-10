@@ -188,4 +188,7 @@ input[type=number] {
     #star-toggle {
         display: none;
     }
+    #title {
+        font-size: 1.5rem;
+    }
 }
